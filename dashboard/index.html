@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Dashboard — Academia INPEC</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   RESET & BASE
+   ============================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{
+  font-family:'Barlow','Segoe UI',sans-serif;
+  background:#050d1a;
+  color:#e8edf5;
+  -webkit-font-smoothing:antialiased;
+  display:flex;flex-direction:column;
+}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#030810}
+::-webkit-scrollbar-thumb{background:#162d4e;border-radius:4px}
+::-webkit-scrollbar-thumb:hover{background:#c9a22740}
+a{text-decoration:none;color:inherit}
+button{font-family:inherit;cursor:pointer}
+
+/* ============================================
+   LAYOUT PRINCIPAL
+   ============================================ */
+.layout{display:flex;height:100vh;overflow:hidden}
+
+/* ============================================
+   SIDEBAR
+   ============================================ */
+.sidebar{
+  width:228px;flex-shrink:0;
+  background:linear-gradient(180deg,#04090f 0%,#061224 100%);
+  border-right:1px solid #0d2038;
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+  z-index:20;
+  box-shadow:4px 0 24px rgba(0,0,0,0.5);
+}
+
+/* Línea decorativa dorada vertical */
+.sidebar::after{
+  content:'';
+  position:absolute;top:0;right:0;bottom:0;
+  width:1px;
+  background:linear-gradient(180deg,transparent,rgba(201,162,39,0.3) 30%,rgba(201,162,39,0.3) 70%,transparent);
+}
+
+/* Logo */
+.sb-logo{
+  padding:16px 18px;
+  border-bottom:1px solid #0d2038;
+  display:flex;align-items:center;
+  flex-shrink:0;
+  background:rgba(0,0,0,0.2);
+  position:relative;
+}
+.sb-logo::after{
+  content:'';
+  position:absolute;bottom:0;left:18px;right:18px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.4),transparent);
+}
+.sb-logo img{height:50px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(201,162,39,0.3))}
+
+/* Nav label */
+.sb-section{
+  padding:18px 18px 6px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:9px;font-weight:700;
+  letter-spacing:0.22em;text-transform:uppercase;
+  color:#1e3a5a;
+}
+
+/* Nav */
+.sb-nav{list-style:none;padding:4px 10px;flex:0}
+.sb-nav li{margin-bottom:2px}
+.sb-nav a{
+  display:flex;align-items:center;gap:11px;
+  padding:10px 10px;
+  border-radius:9px;
+  font-size:13px;font-weight:500;
+  color:#4a7090;
+  transition:all 0.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+.sb-nav a::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(201,162,39,0.08),transparent);
+  opacity:0;transition:opacity 0.2s;
+  border-radius:9px;
+}
+.sb-nav a:hover{color:#c8d8e8;background:rgba(255,255,255,0.04)}
+.sb-nav a:hover::before{opacity:0.5}
+.sb-nav a.active{
+  color:#c9a227;
+  background:linear-gradient(90deg,rgba(201,162,39,0.12),rgba(201,162,39,0.04));
+  border:1px solid rgba(201,162,39,0.15);
+  font-weight:600;
+}
+.sb-nav a.active::before{opacity:1}
+.sb-nav a.active .ni{
+  background:rgba(201,162,39,0.18);
+  border-color:rgba(201,162,39,0.3);
+  box-shadow:0 0 12px rgba(201,162,39,0.2);
+}
+/* Active indicator bar */
+.sb-nav a.active::after{
+  content:'';
+  position:absolute;left:0;top:20%;bottom:20%;
+  width:3px;border-radius:0 2px 2px 0;
+  background:linear-gradient(180deg,#c9a227,#e0b535);
+  box-shadow:0 0 8px rgba(201,162,39,0.5);
+}
+.ni{
+  width:34px;height:34px;border-radius:9px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.06);
+  transition:all 0.2s;
+}
+.sb-divider{height:1px;margin:8px 14px;background:linear-gradient(90deg,transparent,#0d2038,transparent)}
+
+/* Motivational card */
+.sb-motive{
+  margin:10px 10px 14px;
+  border-radius:14px;
+  overflow:hidden;
+  position:relative;
+  flex-shrink:0;
+}
+.sb-motive-bg{
+  position:absolute;inset:0;
+  background-size:cover;background-position:center 20%;
+  filter:brightness(0.28) saturate(0.8);
+}
+.sb-motive-ov{
+  position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(201,162,39,0.22) 0%,rgba(5,15,31,0.85) 100%);
+}
+.sb-motive-border{
+  position:absolute;inset:0;
+  border-radius:14px;
+  border:1px solid rgba(201,162,39,0.2);
+  pointer-events:none;
+}
+.sb-motive-content{position:relative;z-index:1;padding:16px 14px 18px}
+.sb-motive-tag{
+  display:inline-block;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:8px;font-weight:800;letter-spacing:0.2em;text-transform:uppercase;
+  color:#c9a227;background:rgba(201,162,39,0.12);
+  border:1px solid rgba(201,162,39,0.2);
+  padding:3px 8px;border-radius:20px;margin-bottom:10px;
+}
+.sb-motive h4{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:800;text-transform:uppercase;
+  letter-spacing:0.03em;color:#c9a227;line-height:1.2;margin-bottom:8px;
+  text-shadow:0 0 20px rgba(201,162,39,0.3);
+}
+.sb-motive p{font-size:11px;color:#7a9ab8;line-height:1.5}
+
+/* ============================================
+   MAIN
+   ============================================ */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#061224}
+
+/* ============================================
+   TOPBAR
+   ============================================ */
+.topbar{
+  height:68px;flex-shrink:0;
+  background:linear-gradient(90deg,#061224,#07152a);
+  border-bottom:1px solid #0d2038;
+  display:flex;align-items:center;
+  padding:0 24px;gap:16px;
+  position:relative;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+}
+.topbar::after{
+  content:'';
+  position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.2) 30%,rgba(201,162,39,0.2) 70%,transparent);
+}
+
+.tb-welcome{flex:1}
+.tb-welcome h2{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:19px;font-weight:800;color:#fff;
+  letter-spacing:0.01em;
+}
+.tb-welcome p{font-size:12px;color:#4a7090;margin-top:1px}
+
+.tb-streak{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,25,50,0.8);
+  border:1px solid #0d2038;
+  border-radius:10px;padding:9px 16px;
+  position:relative;overflow:hidden;
+}
+.tb-streak::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(201,162,39,0.05),transparent);
+}
+.tb-streak-ico{font-size:20px}
+.tb-streak-info{position:relative}
+.tb-streak-info label{display:block;font-size:10px;color:#3a6080;letter-spacing:0.05em}
+.tb-streak-info strong{display:block;font-size:15px;font-weight:700;color:#fff}
+
+.tb-sep{width:1px;height:28px;background:#0d2038}
+
+.tb-notif{
+  width:38px;height:38px;border-radius:50%;
+  background:rgba(10,25,50,0.8);border:1px solid #0d2038;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;position:relative;transition:all 0.2s;
+}
+.tb-notif:hover{border-color:rgba(201,162,39,0.3);background:rgba(201,162,39,0.06)}
+.ndot{
+  position:absolute;top:7px;right:8px;
+  width:8px;height:8px;border-radius:50%;
+  background:#c9a227;border:2px solid #061224;
+  box-shadow:0 0 6px rgba(201,162,39,0.6);
+  animation:pulse-dot 2s ease-in-out infinite;
+}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 6px rgba(201,162,39,0.6)}50%{box-shadow:0 0 12px rgba(201,162,39,0.9)}}
+
+.tb-user{
+  display:flex;align-items:center;gap:10px;
+  background:rgba(10,25,50,0.8);border:1px solid #0d2038;
+  border-radius:10px;padding:7px 14px 7px 8px;
+  cursor:pointer;transition:all 0.2s;
+}
+.tb-user:hover{border-color:rgba(201,162,39,0.25)}
+.u-av{
+  width:36px;height:36px;border-radius:50%;
+  background:linear-gradient(135deg,#1a4a80,#c9a227);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;color:#fff;
+  border:2px solid rgba(201,162,39,0.3);
+  box-shadow:0 0 12px rgba(201,162,39,0.15);
+}
+.u-info strong{display:block;font-size:13px;color:#fff;font-weight:600}
+.u-info span{display:block;font-size:10px;color:#3a6080;margin-top:1px}
+
+/* ============================================
+   CONTENT AREA
+   ============================================ */
+.content{flex:1;overflow-y:auto;padding:20px 22px;display:flex;flex-direction:column;gap:16px}
+
+/* ============================================
+   TOP STAT CARDS
+   ============================================ */
+.stats-row{display:grid;grid-template-columns:1.7fr 1fr 1fr 1fr;gap:14px}
+
+.sc{
+  background:linear-gradient(145deg,#0a1e38,#081830);
+  border:1px solid #0d2038;
+  border-radius:16px;padding:18px 20px;
+  position:relative;overflow:hidden;
+  transition:all 0.25s ease;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.03);
+}
+.sc:hover{
+  border-color:#162d4e;
+  transform:translateY(-2px);
+  box-shadow:0 8px 32px rgba(0,0,0,0.4),inset 0 1px 0 rgba(255,255,255,0.04);
+}
+/* Glow top accent */
+.sc::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  border-radius:16px 16px 0 0;
+}
+.sc.gold-accent::before{background:linear-gradient(90deg,transparent,rgba(201,162,39,0.6),transparent)}
+.sc.blue-accent::before{background:linear-gradient(90deg,transparent,rgba(59,127,212,0.6),transparent)}
+.sc.green-accent::before{background:linear-gradient(90deg,transparent,rgba(34,197,94,0.5),transparent)}
+.sc.teal-accent::before{background:linear-gradient(90deg,transparent,rgba(20,180,160,0.5),transparent)}
+
+/* Fondo decorativo */
+.sc::after{
+  content:'';position:absolute;right:-20px;bottom:-20px;
+  width:100px;height:100px;border-radius:50%;
+  opacity:0.04;
+}
+.sc.gold-accent::after{background:#c9a227}
+.sc.blue-accent::after{background:#3b7fd4}
+.sc.green-accent::after{background:#22c55e}
+.sc.teal-accent::after{background:#14b4a0}
+
+.sc-label{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:#1e3a5a;margin-bottom:14px;
+}
+
+/* Donut chart */
+.donut-row{display:flex;align-items:center;gap:16px}
+.donut-wrap{position:relative;flex-shrink:0}
+.donut-wrap svg{display:block;transform:rotate(-90deg)}
+.donut-center{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+}
+.donut-pct{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:22px;font-weight:800;color:#fff;line-height:1;
+}
+.donut-sub{font-size:9px;color:#3a6080;margin-top:1px;text-align:center}
+
+.prog-col{flex:1}
+.prog-item{margin-bottom:13px}
+.prog-item:last-child{margin-bottom:0}
+.prog-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px}
+.prog-lbl{font-size:11px;color:#3a6080}
+.prog-val{font-size:15px;font-weight:700;color:#fff;font-family:'Barlow Condensed',sans-serif}
+.pbar{height:5px;background:#061224;border-radius:10px;overflow:hidden;border:1px solid #0d2038}
+.pf{height:100%;border-radius:10px;position:relative;overflow:hidden}
+.pf::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(90deg,transparent 0%,rgba(255,255,255,0.15) 50%,transparent 100%);
+  animation:shimmer 2s linear infinite;background-size:200% 100%;
+}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.pf.gold{background:linear-gradient(90deg,#8a6010,#c9a227,#e0b535)}
+.pf.blue{background:linear-gradient(90deg,#143f70,#1e5fa0,#3b7fd4)}
+.pf.green{background:linear-gradient(90deg,#0a5020,#16803c,#22c55e)}
+
+/* Stat number cards */
+.sc-icon{
+  width:48px;height:48px;border-radius:13px;
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:14px;position:relative;z-index:1;
+}
+.ico-gold{background:rgba(201,162,39,0.1);border:1px solid rgba(201,162,39,0.2);box-shadow:0 0 16px rgba(201,162,39,0.1)}
+.ico-blue{background:rgba(59,127,212,0.1);border:1px solid rgba(59,127,212,0.2);box-shadow:0 0 16px rgba(59,127,212,0.1)}
+.ico-green{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.2);box-shadow:0 0 16px rgba(34,197,94,0.1)}
+.sc-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:38px;font-weight:800;color:#fff;line-height:1;
+  position:relative;z-index:1;
+}
+.sc-num sup{font-size:20px;vertical-align:super}
+.sc-num .denom{font-size:16px;color:#3a6080}
+.sc-sub{font-size:11px;color:#3a6080;margin-top:5px;position:relative;z-index:1}
+.sc-link{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:11px;color:#3b7fd4;margin-top:12px;
+  cursor:pointer;transition:color 0.2s;position:relative;z-index:1;
+  font-weight:500;
+}
+.sc-link:hover{color:#7ab4f5}
+.sc-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;font-weight:700;letter-spacing:0.05em;text-transform:uppercase;
+  padding:3px 8px;border-radius:20px;margin-bottom:10px;
+}
+.badge-gold{background:rgba(201,162,39,0.1);color:#c9a227;border:1px solid rgba(201,162,39,0.2)}
+.badge-green{background:rgba(34,197,94,0.1);color:#22c55e;border:1px solid rgba(34,197,94,0.2)}
+.badge-blue{background:rgba(59,127,212,0.1);color:#3b7fd4;border:1px solid rgba(59,127,212,0.2)}
+
+/* ============================================
+   BOTTOM GRID
+   ============================================ */
+.bottom-grid{display:grid;grid-template-columns:1fr 296px;gap:14px;flex:1;min-height:0}
+
+/* ============================================
+   MÓDULOS PANEL
+   ============================================ */
+.panel{
+  background:linear-gradient(145deg,#0a1e38,#081830);
+  border:1px solid #0d2038;border-radius:16px;
+  overflow:hidden;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.02);
+}
+.panel-head{
+  padding:14px 20px;
+  border-bottom:1px solid #0d2038;
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(0,0,0,0.15);
+  position:relative;
+}
+.panel-head::after{
+  content:'';position:absolute;bottom:0;left:20px;right:20px;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.15),transparent);
+}
+.panel-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:#1e3a5a;
+}
+.panel-head-right{display:flex;align-items:center;gap:6px}
+.panel-tag{
+  font-size:10px;font-weight:600;color:#c9a227;
+  background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.15);
+  padding:3px 9px;border-radius:20px;
+}
+.modules-list{overflow-y:auto;max-height:calc(100vh - 340px);padding:10px}
+
+/* Módulo row */
+.mod-row{
+  display:flex;align-items:center;gap:12px;
+  padding:12px 12px;
+  border-radius:11px;
+  border:1px solid #0d2038;
+  background:linear-gradient(90deg,rgba(5,13,26,0.8),rgba(6,18,36,0.5));
+  margin-bottom:7px;
+  transition:all 0.2s ease;
+  position:relative;overflow:hidden;
+}
+.mod-row:hover{
+  border-color:#162d4e;
+  background:linear-gradient(90deg,rgba(10,25,55,0.9),rgba(8,20,40,0.7));
+  transform:translateX(2px);
+  box-shadow:0 4px 16px rgba(0,0,0,0.3);
+}
+.mod-row.done{border-left:3px solid rgba(34,197,94,0.4)}
+.mod-row.inprog{border-left:3px solid rgba(59,127,212,0.4)}
+.mod-row.locked{opacity:0.55}
+
+.mod-num{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:16px;font-weight:800;
+  color:#0d2038;min-width:22px;text-align:center;
+}
+.mod-row.done .mod-num{color:#22c55e22}
+.mod-row.inprog .mod-num{color:#3b7fd422}
+
+.mod-ico{
+  width:36px;height:36px;border-radius:10px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border:1px solid;transition:all 0.2s;
+}
+.ico-done{background:rgba(34,197,94,0.08);border-color:rgba(34,197,94,0.2)}
+.ico-prog{background:rgba(59,127,212,0.08);border-color:rgba(59,127,212,0.2)}
+.ico-lock{background:rgba(30,58,90,0.3);border-color:rgba(30,58,90,0.4)}
+.ico-gold-m{background:rgba(201,162,39,0.08);border-color:rgba(201,162,39,0.2)}
+
+.mod-info{flex:1;min-width:0}
+.mod-info h4{
+  font-size:13px;font-weight:600;color:#d0dce8;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px;
+}
+.mod-info p{font-size:11px;color:#2a4a6a}
+
+/* Status area */
+.mod-status{width:130px;flex-shrink:0}
+.status-row{display:flex;align-items:center;gap:6px;margin-bottom:4px}
+.s-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.s-green{background:#22c55e;box-shadow:0 0 6px rgba(34,197,94,0.5)}
+.s-blue{background:#3b7fd4;box-shadow:0 0 6px rgba(59,127,212,0.5)}
+.s-gray{background:#2a4a6a;width:6px;height:6px;border:1px solid #2a4a6a}
+.status-txt{font-size:11px;font-weight:600}
+.txt-green{color:#22c55e}
+.txt-blue{color:#3b7fd4}
+.txt-gray{color:#2a4a6a}
+.simulacro-score{font-size:10px;color:#1e3a5a;margin-top:2px}
+.mod-pct{font-size:10px;color:#2a4a6a;text-align:right}
+
+/* Botones módulo */
+.mod-btn{
+  padding:7px 14px;border-radius:8px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:800;letter-spacing:0.07em;text-transform:uppercase;
+  border:none;cursor:pointer;transition:all 0.2s;
+  white-space:nowrap;flex-shrink:0;
+}
+.btn-rep{
+  background:transparent;color:#8fa8c8;
+  border:1px solid #162d4e;
+}
+.btn-rep:hover{border-color:rgba(201,162,39,0.4);color:#c9a227;background:rgba(201,162,39,0.06)}
+.btn-cont{
+  background:linear-gradient(135deg,#a07818,#c9a227);
+  color:#000;font-weight:800;
+  box-shadow:0 4px 14px rgba(201,162,39,0.25);
+}
+.btn-cont:hover{background:linear-gradient(135deg,#c9a227,#e0b535);box-shadow:0 6px 20px rgba(201,162,39,0.4);transform:translateY(-1px)}
+.btn-lock{
+  background:rgba(20,40,70,0.5);color:#2a4a6a;
+  border:1px solid #0d2038;
+  display:flex;align-items:center;gap:5px;
+  cursor:not-allowed;
+}
+
+/* ============================================
+   COLUMNA DERECHA
+   ============================================ */
+.right-col{display:flex;flex-direction:column;gap:12px;overflow-y:auto;min-height:0}
+
+.r-panel{
+  background:linear-gradient(145deg,#0a1e38,#081830);
+  border:1px solid #0d2038;border-radius:16px;
+  flex-shrink:0;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.02);
+  overflow:hidden;
+}
+.r-panel-head{
+  padding:12px 16px;border-bottom:1px solid #0d2038;
+  display:flex;align-items:center;gap:8px;
+  background:rgba(0,0,0,0.15);
+}
+.r-panel-title{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;
+  color:#1e3a5a;flex:1;
+}
+.r-panel-body{padding:14px 16px}
+
+/* Simulacro Final */
+.sf-row{display:flex;align-items:flex-start;gap:12px}
+.sf-ico{
+  width:44px;height:44px;border-radius:12px;flex-shrink:0;
+  background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.2);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 16px rgba(201,162,39,0.1);
+}
+.sf-txt{flex:1}
+.sf-txt p{font-size:12px;color:#6a88a8;line-height:1.5;margin-bottom:8px}
+.sf-meta{font-size:11px;color:#2a4a6a;margin-bottom:6px}
+.sf-meta strong{color:#8fa8c8}
+.sf-btn{
+  width:100%;padding:9px;border-radius:9px;
+  background:transparent;border:1px solid #162d4e;
+  color:#8fa8c8;font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+  cursor:pointer;transition:all 0.2s;margin-top:10px;
+}
+.sf-btn:hover{border-color:rgba(201,162,39,0.35);color:#c9a227;background:rgba(201,162,39,0.05)}
+
+/* Gráfico rendimiento */
+.chart-area{padding:4px 0 8px}
+.chart-svg-wrap{
+  position:relative;margin:0 0 6px;
+  background:rgba(5,13,26,0.5);
+  border-radius:8px;overflow:hidden;
+  border:1px solid #0d2038;
+}
+.chart-ylabels{
+  position:absolute;left:6px;top:6px;bottom:20px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  pointer-events:none;
+}
+.chart-ylabels span{font-size:8px;color:#1e3a5a}
+.chart-xlabels{display:flex;justify-content:space-between;padding:0 4px}
+.chart-xlabels span{font-size:8px;color:#1e3a5a}
+.chart-stat-row{
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:10px;padding:8px 10px;
+  background:rgba(5,13,26,0.5);border-radius:8px;border:1px solid #0d2038;
+}
+.cs-item{text-align:center}
+.cs-val{font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;color:#fff;display:block}
+.cs-lbl{font-size:9px;color:#1e3a5a;letter-spacing:0.06em}
+
+/* Calendario */
+.cal-nav-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-nav-row h4{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:13px;font-weight:700;color:#c0ccdc;letter-spacing:0.04em;
+}
+.cal-arr{
+  width:24px;height:24px;border-radius:6px;
+  background:rgba(10,25,50,0.8);border:1px solid #162d4e;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+  transition:all 0.2s;
+}
+.cal-arr:hover{border-color:rgba(201,162,39,0.3);background:rgba(201,162,39,0.06)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cdn{font-size:8px;font-weight:700;letter-spacing:0.06em;color:#1e3a5a;padding:4px 0;text-transform:uppercase}
+.cd{
+  font-size:10px;color:#2a4a6a;
+  padding:5px 2px;border-radius:5px;cursor:pointer;
+  transition:all 0.15s;line-height:1;
+}
+.cd:hover{background:rgba(30,60,100,0.5);color:#8fa8c8}
+.cd.act{background:rgba(59,127,212,0.15);color:#3b7fd4;font-weight:600;border-radius:5px}
+.cd.today{
+  background:linear-gradient(135deg,#a07818,#c9a227);
+  color:#000;font-weight:800;border-radius:50%;
+  box-shadow:0 0 10px rgba(201,162,39,0.4);
+}
+.cd.emp{pointer-events:none}
+.cal-foot{
+  margin-top:10px;padding-top:8px;border-top:1px solid #0d2038;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.cal-foot span{font-size:10px;color:#1e3a5a}
+.cal-foot strong{color:#c9a227}
+
+/* ============================================
+   FOOTER BAR
+   ============================================ */
+.footer-bar{
+  flex-shrink:0;
+  background:linear-gradient(90deg,#07152a,#061224);
+  border-top:1px solid #0d2038;
+  padding:12px 22px;
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  position:relative;
+}
+.footer-bar::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,162,39,0.2) 30%,rgba(201,162,39,0.2) 70%,transparent);
+}
+.fb-left{display:flex;align-items:center;gap:12px}
+.fb-ico{
+  width:38px;height:38px;border-radius:10px;flex-shrink:0;
+  background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.2);
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 12px rgba(201,162,39,0.08);
+}
+.fb-left p{font-size:12px;color:#c0ccdc;font-weight:500}
+.fb-left span{font-size:10px;color:#2a4a6a}
+.fb-right{display:flex;align-items:center;gap:14px}
+.fb-right p{font-size:11px;color:#2a4a6a}
+.fb-btn{
+  padding:9px 18px;border-radius:8px;
+  background:linear-gradient(135deg,#a07818,#c9a227);color:#000;
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;
+  border:none;cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:all 0.2s;box-shadow:0 4px 14px rgba(201,162,39,0.2);
+}
+.fb-btn:hover{background:linear-gradient(135deg,#c9a227,#e0b535);box-shadow:0 6px 20px rgba(201,162,39,0.35)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+<!-- ========== SIDEBAR ========== -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <img src="../assets/logos/logo.png" alt="Academia INPEC">
+  </div>
+
+  <div class="sb-section">Menú Principal</div>
+  <ul class="sb-nav">
+    <li><a href="#" class="active">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg></div>
+      <span>Inicio</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <span>Mis Módulos</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+      <span>Simulacro Final</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+      <span>Estadísticas</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+      <span>Historial de Simulacros</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+      <span>Material de Apoyo</span>
+    </a></li>
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+      <span>Mensajes</span>
+    </a></li>
+  </ul>
+
+  <div class="sb-divider"></div>
+  <ul class="sb-nav">
+    <li><a href="#">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+      <span>Configuración</span>
+    </a></li>
+    <li><a href="../index.html">
+      <div class="ni"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a7090" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+      <span>Cerrar Sesión</span>
+    </a></li>
+  </ul>
+
+  <div style="flex:1"></div>
+
+  <!-- Motivational card -->
+  <div class="sb-motive">
+    <div class="sb-motive-bg" style="background-image:url('../assets/backgrounds/hero-bg.jpg')"></div>
+    <div class="sb-motive-ov"></div>
+    <div class="sb-motive-border"></div>
+    <div class="sb-motive-content">
+      <div class="sb-motive-tag">Motivación</div>
+      <h4>Disciplina hoy,<br>estabilidad mañana.</h4>
+      <p>Cada día de estudio te acerca más a tu sueño de pertenecer al INPEC.</p>
+    </div>
+  </div>
+</aside>
+
+<!-- ========== MAIN ========== -->
+<div class="main">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <div class="tb-welcome">
+      <h2>¡Bienvenido, Estudiante! 🔥</h2>
+      <p>Sigue adelante, la constancia te llevará a tu meta.</p>
+    </div>
+    <div class="tb-streak">
+      <span class="tb-streak-ico">🔥</span>
+      <div class="tb-streak-info">
+        <label>Racha de estudio</label>
+        <strong>7 días</strong>
+      </div>
+    </div>
+    <div class="tb-sep"></div>
+    <div class="tb-notif" title="Notificaciones">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#6a88a8" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      <div class="ndot"></div>
+    </div>
+    <div class="tb-user">
+      <div class="u-av">ES</div>
+      <div class="u-info">
+        <strong>Estudiante</strong>
+        <span>Nivel Aspirante ▾</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- STAT CARDS -->
+    <div class="stats-row">
+
+      <!-- Progreso General -->
+      <div class="sc gold-accent">
+        <div class="sc-label">Progreso General</div>
+        <div class="donut-row">
+          <div class="donut-wrap">
+            <svg width="88" height="88" viewBox="0 0 88 88">
+              <circle cx="44" cy="44" r="34" fill="none" stroke="#061224" stroke-width="8"/>
+              <circle cx="44" cy="44" r="34" fill="none" stroke="url(#dg)" stroke-width="8"
+                stroke-dasharray="213.6" stroke-dashoffset="74.8" stroke-linecap="round"/>
+              <defs>
+                <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#a07818"/>
+                  <stop offset="100%" stop-color="#e0b535"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <div class="donut-center">
+              <div class="donut-pct">65%</div>
+              <div class="donut-sub">Curso</div>
+            </div>
+          </div>
+          <div class="prog-col">
+            <div class="prog-item">
+              <div class="prog-top">
+                <span class="prog-lbl">Módulos completados</span>
+                <span class="prog-val">6 / 10</span>
+              </div>
+              <div class="pbar"><div class="pf gold" style="width:60%"></div></div>
+            </div>
+            <div class="prog-item">
+              <div class="prog-top">
+                <span class="prog-lbl">Simulacros realizados</span>
+                <span class="prog-val">8 / 10</span>
+              </div>
+              <div class="pbar"><div class="pf blue" style="width:80%"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Puntaje -->
+      <div class="sc blue-accent">
+        <div class="sc-label">Puntaje Promedio</div>
+        <div class="sc-badge badge-gold">↑ +3% este mes</div>
+        <div class="sc-icon ico-gold">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+        </div>
+        <div class="sc-num">78<sup>%</sup></div>
+        <div class="sc-sub">Buen trabajo, sigue así</div>
+      </div>
+
+      <!-- Último simulacro -->
+      <div class="sc green-accent">
+        <div class="sc-label">Último Simulacro</div>
+        <div class="sc-badge badge-blue">Módulo 6</div>
+        <div class="sc-icon ico-blue">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#3b7fd4" stroke-width="1.5"><polyline points="9,11 12,14 22,4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        <div class="sc-num">8.2<span class="denom"> /10</span></div>
+        <div class="sc-sub">Resultado aprobatorio</div>
+        <div class="sc-link">Ver resultado →</div>
+      </div>
+
+      <!-- Tiempo -->
+      <div class="sc teal-accent">
+        <div class="sc-label">Tiempo de Estudio</div>
+        <div class="sc-badge badge-green">↑ Hoy: 45min</div>
+        <div class="sc-icon ico-green">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+        </div>
+        <div class="sc-num" style="font-size:28px">24h 35m</div>
+        <div class="sc-sub">Horas totales acumuladas</div>
+        <div class="sc-link">Ver estadísticas →</div>
+      </div>
+
+    </div>
+
+    <!-- BOTTOM GRID -->
+    <div class="bottom-grid" style="min-height:0;flex:1">
+
+      <!-- MÓDULOS -->
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-title">Mis Módulos</div>
+          <div class="panel-head-right">
+            <span class="panel-tag">6 / 10 completados</span>
+          </div>
+        </div>
+        <div class="modules-list">
+
+          <!-- 1 -->
+          <div class="mod-row done">
+            <span class="mod-num">1</span>
+            <div class="mod-ico ico-done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14,2 14,8 20,8"/></svg></div>
+            <div class="mod-info"><h4>Constitución Política</h4><p>Principios fundamentales y estructura del Estado.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-green"></div><span class="status-txt txt-green">Completado</span></div>
+              <div class="simulacro-score">Simulacro: 9.0/10</div>
+            </div>
+            <button class="mod-btn btn-rep">Repasar</button>
+          </div>
+
+          <!-- 2 -->
+          <div class="mod-row done">
+            <span class="mod-num">2</span>
+            <div class="mod-ico ico-done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+            <div class="mod-info"><h4>Derechos Humanos</h4><p>Fundamentos, historia y aplicación.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-green"></div><span class="status-txt txt-green">Completado</span></div>
+              <div class="simulacro-score">Simulacro: 8.0/10</div>
+            </div>
+            <button class="mod-btn btn-rep">Repasar</button>
+          </div>
+
+          <!-- 3 -->
+          <div class="mod-row done">
+            <span class="mod-num">3</span>
+            <div class="mod-ico ico-done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div class="mod-info"><h4>Normatividad Penitenciaria</h4><p>Leyes y decretos del sistema penitenciario.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-green"></div><span class="status-txt txt-green">Completado</span></div>
+              <div class="simulacro-score">Simulacro: 7.0/10</div>
+            </div>
+            <button class="mod-btn btn-rep">Repasar</button>
+          </div>
+
+          <!-- 4 -->
+          <div class="mod-row done">
+            <span class="mod-num">4</span>
+            <div class="mod-ico ico-done"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 3H8"/></svg></div>
+            <div class="mod-info"><h4>Función Pública</h4><p>Empleo público y carrera administrativa.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-green"></div><span class="status-txt txt-green">Completado</span></div>
+              <div class="simulacro-score">Simulacro: 8.5/10</div>
+            </div>
+            <button class="mod-btn btn-rep">Repasar</button>
+          </div>
+
+          <!-- 5 -->
+          <div class="mod-row inprog">
+            <span class="mod-num">5</span>
+            <div class="mod-ico ico-prog"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b7fd4" stroke-width="2"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg></div>
+            <div class="mod-info"><h4>Ética Pública</h4><p>Principios y valores del servidor público.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-blue"></div><span class="status-txt txt-blue">En progreso</span><span class="mod-pct" style="margin-left:auto">60%</span></div>
+              <div class="pbar" style="margin-top:4px"><div class="pf blue" style="width:60%"></div></div>
+            </div>
+            <button class="mod-btn btn-cont">Continuar</button>
+          </div>
+
+          <!-- 6 -->
+          <div class="mod-row inprog">
+            <span class="mod-num">6</span>
+            <div class="mod-ico ico-prog"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#3b7fd4" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg></div>
+            <div class="mod-info"><h4>Atención al Ciudadano</h4><p>Normas y protocolos de atención.</p></div>
+            <div class="mod-status">
+              <div class="status-row"><div class="s-dot s-blue"></div><span class="status-txt txt-blue">En progreso</span><span class="mod-pct" style="margin-left:auto">40%</span></div>
+              <div class="pbar" style="margin-top:4px"><div class="pf blue" style="width:40%"></div></div>
+            </div>
+            <button class="mod-btn btn-cont">Continuar</button>
+          </div>
+
+          <!-- 7-10 bloqueados -->
+          <div class="mod-row locked">
+            <span class="mod-num">7</span>
+            <div class="mod-ico ico-lock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2a4a6a" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+            <div class="mod-info"><h4>Régimen Penitenciario</h4><p>Pendiente por iniciar.</p></div>
+            <div class="mod-status"><div class="status-row"><div class="s-dot s-gray"></div><span class="status-txt txt-gray">Pendiente</span></div><div class="simulacro-score">0%</div></div>
+            <button class="mod-btn btn-lock"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Bloqueado</button>
+          </div>
+          <div class="mod-row locked">
+            <span class="mod-num">8</span>
+            <div class="mod-ico ico-lock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2a4a6a" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></div>
+            <div class="mod-info"><h4>Competencias Comportamentales</h4><p>Pendiente por iniciar.</p></div>
+            <div class="mod-status"><div class="status-row"><div class="s-dot s-gray"></div><span class="status-txt txt-gray">Pendiente</span></div><div class="simulacro-score">0%</div></div>
+            <button class="mod-btn btn-lock"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Bloqueado</button>
+          </div>
+          <div class="mod-row locked">
+            <span class="mod-num">9</span>
+            <div class="mod-ico ico-lock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2a4a6a" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+            <div class="mod-info"><h4>Prueba de Afrontamiento</h4><p>Pendiente por iniciar.</p></div>
+            <div class="mod-status"><div class="status-row"><div class="s-dot s-gray"></div><span class="status-txt txt-gray">Pendiente</span></div><div class="simulacro-score">0%</div></div>
+            <button class="mod-btn btn-lock"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Bloqueado</button>
+          </div>
+          <div class="mod-row locked">
+            <span class="mod-num">10</span>
+            <div class="mod-ico ico-lock"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#2a4a6a" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg></div>
+            <div class="mod-info"><h4>Casos Situacionales</h4><p>Pendiente por iniciar.</p></div>
+            <div class="mod-status"><div class="status-row"><div class="s-dot s-gray"></div><span class="status-txt txt-gray">Pendiente</span></div><div class="simulacro-score">0%</div></div>
+            <button class="mod-btn btn-lock"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Bloqueado</button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- COLUMNA DERECHA -->
+      <div class="right-col">
+
+        <!-- Simulacro Final -->
+        <div class="r-panel">
+          <div class="r-panel-head">
+            <div class="r-panel-title">Simulacro Final</div>
+            <span style="font-size:9px;color:#c9a227;background:rgba(201,162,39,0.08);border:1px solid rgba(201,162,39,0.15);padding:2px 8px;border-radius:20px;font-weight:700;letter-spacing:0.08em">PRÓXIMAMENTE</span>
+          </div>
+          <div class="r-panel-body">
+            <div class="sf-row">
+              <div class="sf-ico">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg>
+              </div>
+              <div class="sf-txt">
+                <p>Disponible al completar todos los módulos del curso.</p>
+              </div>
+            </div>
+            <div class="sf-meta" style="margin-top:10px">Módulos completados: <strong>6 / 10</strong></div>
+            <div class="pbar" style="margin-top:5px"><div class="pf gold" style="width:60%"></div></div>
+            <button class="sf-btn">Ver detalles</button>
+          </div>
+        </div>
+
+        <!-- Rendimiento -->
+        <div class="r-panel">
+          <div class="r-panel-head">
+            <div class="r-panel-title">Tu Rendimiento</div>
+            <span style="font-size:9px;color:#22c55e;font-weight:700">↑ Mejorando</span>
+          </div>
+          <div class="r-panel-body">
+            <div class="chart-area">
+              <div class="chart-svg-wrap" style="padding:8px 8px 4px 28px">
+                <svg width="100%" height="78" viewBox="0 0 220 78" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#c9a227" stop-opacity="0.25"/>
+                      <stop offset="100%" stop-color="#c9a227" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="0"  x2="220" y2="0"  stroke="#0d2038" stroke-width="0.5"/>
+                  <line x1="0" y1="19" x2="220" y2="19" stroke="#0d2038" stroke-width="0.5"/>
+                  <line x1="0" y1="39" x2="220" y2="39" stroke="#0d2038" stroke-width="0.5"/>
+                  <line x1="0" y1="58" x2="220" y2="58" stroke="#0d2038" stroke-width="0.5"/>
+                  <line x1="0" y1="78" x2="220" y2="78" stroke="#0d2038" stroke-width="0.5"/>
+                  <path d="M0,62 C20,58 40,50 70,44 S110,32 145,22 S185,10 220,6 L220,78 L0,78 Z" fill="url(#cg)"/>
+                  <path d="M0,62 C20,58 40,50 70,44 S110,32 145,22 S185,10 220,6" fill="none" stroke="#c9a227" stroke-width="2" stroke-linecap="round"/>
+                  <circle cx="0"   cy="62" r="3" fill="#c9a227" stroke="#061224" stroke-width="1.5"/>
+                  <circle cx="44"  cy="52" r="3" fill="#c9a227" stroke="#061224" stroke-width="1.5"/>
+                  <circle cx="88"  cy="40" r="3" fill="#c9a227" stroke="#061224" stroke-width="1.5"/>
+                  <circle cx="132" cy="26" r="3" fill="#c9a227" stroke="#061224" stroke-width="1.5"/>
+                  <circle cx="176" cy="14" r="3" fill="#c9a227" stroke="#061224" stroke-width="1.5"/>
+                  <circle cx="220" cy="6"  r="3" fill="#e0b535" stroke="#061224" stroke-width="1.5"/>
+                </svg>
+                <div class="chart-ylabels">
+                  <span>100%</span><span>75%</span><span>50%</span><span>25%</span><span>0%</span>
+                </div>
+              </div>
+              <div class="chart-xlabels" style="padding:4px 8px 0 28px">
+                <span>01/05</span><span>05/05</span><span>10/05</span><span>15/05</span><span>20/05</span>
+              </div>
+              <div class="chart-stat-row">
+                <div class="cs-item"><span class="cs-val">65%</span><span class="cs-lbl">Inicio</span></div>
+                <div class="cs-item"><span class="cs-val" style="color:#c9a227">78%</span><span class="cs-lbl">Actual</span></div>
+                <div class="cs-item"><span class="cs-val" style="color:#22c55e">+13%</span><span class="cs-lbl">Mejora</span></div>
+              </div>
+            </div>
+            <button class="sf-btn">Ver estadísticas completas</button>
+          </div>
+        </div>
+
+        <!-- Calendario -->
+        <div class="r-panel">
+          <div class="r-panel-head">
+            <div class="r-panel-title">Calendario de Estudio</div>
+          </div>
+          <div class="r-panel-body">
+            <div class="cal-nav-row">
+              <div class="cal-arr"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#6a88a8" stroke-width="2.5"><polyline points="15,18 9,12 15,6"/></svg></div>
+              <h4>Mayo 2025</h4>
+              <div class="cal-arr"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="#6a88a8" stroke-width="2.5"><polyline points="9,18 15,12 9,6"/></svg></div>
+            </div>
+            <div class="cal-grid">
+              <div class="cdn">LUN</div><div class="cdn">MAR</div><div class="cdn">MIÉ</div><div class="cdn">JUE</div><div class="cdn">VIE</div><div class="cdn">SÁB</div><div class="cdn">DOM</div>
+              <div class="cd emp"></div><div class="cd emp"></div><div class="cd emp"></div><div class="cd act">1</div><div class="cd act">2</div><div class="cd act">3</div><div class="cd">4</div>
+              <div class="cd act">5</div><div class="cd act">6</div><div class="cd act">7</div><div class="cd act">8</div><div class="cd act">9</div><div class="cd">10</div><div class="cd">11</div>
+              <div class="cd act">12</div><div class="cd act">13</div><div class="cd act">14</div><div class="cd act">15</div><div class="cd today">16</div><div class="cd">17</div><div class="cd">18</div>
+              <div class="cd">19</div><div class="cd">20</div><div class="cd">21</div><div class="cd">22</div><div class="cd">23</div><div class="cd">24</div><div class="cd">25</div>
+              <div class="cd">26</div><div class="cd">27</div><div class="cd">28</div><div class="cd">29</div><div class="cd">30</div><div class="cd">31</div><div class="cd emp"></div>
+            </div>
+            <div class="cal-foot">
+              <span>Días con actividad: <strong>16</strong></span>
+              <span style="color:#3b7fd4;font-size:9px;font-weight:600">■ Activo &nbsp; <span style="color:#c9a227">●</span> Hoy</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /right-col -->
+    </div><!-- /bottom-grid -->
+  </div><!-- /content -->
+
+  <!-- FOOTER BAR -->
+  <div class="footer-bar">
+    <div class="fb-left">
+      <div class="fb-ico">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <p>No se trata de tener tiempo, se trata de hacerlo valer.</p>
+        <span>La preparación de hoy es tu tranquilidad de mañana.</span>
+      </div>
+    </div>
+    <div class="fb-right">
+      <p>¿Necesitas ayuda? Estamos aquí para apoyarte.</p>
+      <button class="fb-btn">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Contáctanos
+      </button>
+    </div>
+  </div>
+
+</div><!-- /main -->
+</div><!-- /layout -->
+
+<script>
+document.querySelectorAll('.sb-nav a').forEach(a=>{
+  a.addEventListener('click',function(e){
+    if(this.getAttribute('href')==='#'){e.preventDefault();}
+    document.querySelectorAll('.sb-nav a').forEach(x=>x.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

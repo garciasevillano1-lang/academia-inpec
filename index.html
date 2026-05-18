@@ -1,0 +1,1409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Academia INPEC — Prepárate, Supera, Transforma tu Futuro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Barlow:wght@300;400;500;600;700;800&family=Barlow+Condensed:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+/* =============================================
+   RESET & BASE
+   ============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Barlow', 'Segoe UI', system-ui, sans-serif;
+  background-color: #040d1a;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(4,9,26,0.84) 0%,
+      rgba(6,18,36,0.76) 35%,
+      rgba(6,18,36,0.80) 65%,
+      rgba(3,8,18,0.93) 100%
+    ),
+    url('assets/images/background-full.jpg');
+  background-size: cover;
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: #e8edf5;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #030b17; }
+::-webkit-scrollbar-thumb { background: #1a3a60; border-radius: 3px; }
+::selection { background: rgba(201,162,39,0.3); color: #fff; }
+a { text-decoration: none; color: inherit; }
+.logo-img {
+  height: 52px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  /* El logo tiene fondo negro - lo hacemos transparente con mix-blend-mode */
+  
+  
+}
+.logo-img-footer {
+  height: 40px;
+}
+
+img { max-width: 100%; display: block; }
+
+/* =============================================
+   VARIABLES (inline for compatibility)
+   ============================================= */
+/* Paleta:
+   --navy: #061224
+   --gold: #c9a227
+   --card: #0a1e38
+   --border: #1a3a60
+   --text: #e8edf5
+   --muted: #8fa8c8
+*/
+
+/* =============================================
+   COMPONENTES REUTILIZABLES
+   ============================================= */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 48px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow Condensed', 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 12px 26px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+.btn-gold {
+  background: #c9a227;
+  color: #000;
+  box-shadow: 0 4px 20px rgba(201,162,39,0.3);
+}
+.btn-gold:hover {
+  background: #e0b535;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(201,162,39,0.45);
+}
+.btn-outline {
+  background: transparent;
+  color: #e8edf5;
+  border: 1px solid #1a3a60;
+}
+.btn-outline:hover {
+  border-color: #c9a227;
+  color: #c9a227;
+  background: rgba(201,162,39,0.08);
+}
+
+.badge-gold {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(201,162,39,0.1);
+  color: #c9a227;
+  border: 1px solid rgba(201,162,39,0.3);
+}
+
+.section-label {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c9a227;
+  display: block;
+  margin-bottom: 10px;
+}
+.section-title {
+  font-family: 'Barlow Condensed', 'Cinzel', sans-serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #ffffff;
+  line-height: 1.1;
+}
+.section-sub {
+  font-size: 15px;
+  color: #8fa8c8;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+.section-header { text-align: center; margin-bottom: 52px; }
+
+/* Scroll reveal */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+[data-animate].visible { opacity: 1; transform: translateY(0); }
+
+/* =============================================
+   NAVBAR
+   ============================================= */
+#navbar {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1000;
+  background: rgba(5, 14, 23, 0.95);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(26,58,96,0.5);
+  transition: all 0.25s ease;
+}
+#navbar.scrolled {
+  background: #030c19;
+  border-bottom-color: #1a3a60;
+  box-shadow: 0 4px 32px rgba(0,0,0,0.6);
+}
+.nav-inner {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 70px;
+  width: 100%;
+}
+
+/* Logo */
+.nav-logo { display: flex; align-items: center; gap: 11px; flex-shrink: 0; }
+.logo-emblem {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  border: 1.5px solid #c9a227;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(201,162,39,0.07);
+  flex-shrink: 0;
+}
+.logo-words { line-height: 1; }
+.logo-top {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #8fa8c8;
+  text-transform: uppercase;
+  display: block;
+}
+.logo-main {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #c9a227;
+  text-transform: uppercase;
+  display: block;
+  line-height: 1;
+}
+.logo-sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: #4a6080;
+  text-transform: uppercase;
+  display: block;
+  margin-top: 2px;
+}
+
+/* Nav links */
+.nav-links {
+  display: flex;
+  list-style: none;
+  gap: 2px;
+  margin: 0 auto;
+}
+.nav-links a {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.06em;
+  color: #8fa8c8;
+  padding: 7px 13px;
+  border-radius: 5px;
+  transition: all 0.2s;
+  display: block;
+}
+.nav-links a:hover { color: #fff; background: rgba(255,255,255,0.07); }
+
+.nav-cta { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-cta .btn { padding: 9px 18px; font-size: 12px; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin-left: auto;
+}
+.hamburger span {
+  display: block; width: 22px; height: 2px;
+  background: #e8edf5; border-radius: 2px; transition: all 0.25s;
+}
+
+/* =============================================
+   HERO
+   ============================================= */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding-top: 70px;
+  background: #061224;
+  overflow: hidden;
+}
+
+/* Fondo con imagen (si existe) + fallback sólido */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('assets/backgrounds/hero-bg.jpg');
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+
+/* Overlay oscuro garantizado */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(105deg,
+      #050e1c 0%,
+      rgba(5,14,23,0.96) 38%,
+      rgba(6,18,36,0.82) 60%,
+      rgba(6,18,36,0.68) 100%
+    ),
+    radial-gradient(ellipse 55% 65% at 72% 48%, rgba(14,50,100,0.35) 0%, transparent 65%),
+    radial-gradient(ellipse 30% 40% at 8% 85%, rgba(201,162,39,0.07) 0%, transparent 55%);
+  z-index: 1;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  padding-top: 56px;
+  padding-bottom: 80px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.hero-left { flex: 1; max-width: 560px; min-width: 0; }
+
+.hero-badge { margin-bottom: 22px; }
+
+.hero-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.01em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.hero-title .gold { color: #c9a227; }
+
+.hero-desc {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #8fa8c8;
+  max-width: 430px;
+  margin-bottom: 28px;
+}
+
+.hero-features {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 32px;
+}
+.hero-feat {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13px;
+  color: #8fa8c8;
+  line-height: 1.4;
+}
+.hero-feat svg { flex-shrink: 0; color: #c9a227; margin-top: 2px; }
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.btn-hero { padding: 15px 32px; font-size: 14px; }
+
+.hero-trust {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: #4a6080;
+}
+
+/* Hero card derecha */
+.hero-right { flex-shrink: 0; }
+.hero-card {
+  background: rgba(10,30,56,0.90);
+  border: 1px solid #1a3a60;
+  border-radius: 20px;
+  padding: 32px 26px;
+  width: 230px;
+  text-align: center;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+}
+.hcard-icon {
+  width: 62px; height: 62px;
+  border-radius: 50%;
+  background: rgba(201,162,39,0.1);
+  border: 1px solid rgba(201,162,39,0.3);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 18px;
+}
+.hcard-label { font-size: 13px; color: #8fa8c8; margin-bottom: 4px; }
+.hcard-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #c9a227;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 14px;
+}
+.hcard-sep { height: 1px; background: #1a3a60; margin-bottom: 12px; }
+.hcard-sub { font-size: 12px; color: #4a6080; line-height: 1.5; margin-bottom: 18px; }
+
+/* =============================================
+   STATS BAR
+   ============================================= */
+.stats-bar {
+  background: #081830;
+  border-top: 1px solid #0f2540;
+  border-bottom: 1px solid #0f2540;
+  padding: 44px 0;
+}
+.stats-grid {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stat-item { display: flex; align-items: center; gap: 16px; }
+.stat-icon { flex-shrink: 0; }
+.stat-num {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 34px;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+.stat-label {
+  display: block;
+  font-size: 12px;
+  color: #8fa8c8;
+  margin-top: 4px;
+  max-width: 110px;
+  line-height: 1.3;
+}
+.stat-div { width: 1px; height: 44px; background: #0f2540; }
+
+/* =============================================
+   SECCIÓN INCLUYE
+   ============================================= */
+.sec-includes { background: #061224; padding: 96px 0; }
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+.inc-card {
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 14px;
+  padding: 28px 18px;
+  text-align: center;
+  transition: all 0.22s ease;
+}
+.inc-card:hover {
+  border-color: rgba(201,162,39,0.35);
+  background: #0d2444;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+.inc-icon {
+  width: 56px; height: 56px;
+  background: rgba(201,162,39,0.08);
+  border: 1px solid rgba(201,162,39,0.25);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 16px;
+}
+.inc-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.inc-desc { font-size: 12px; color: #8fa8c8; line-height: 1.5; }
+
+/* =============================================
+   MÓDULOS
+   ============================================= */
+.sec-modules { background: #081830; padding: 96px 0; }
+.modules-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 40px; }
+.mod-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 10px;
+  padding: 17px 22px;
+  transition: all 0.2s ease;
+}
+.mod-row:hover { border-color: #1a3a60; background: #0d2444; transform: translateX(4px); }
+.mod-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: #a0811e;
+  opacity: 0.65;
+  min-width: 38px;
+}
+.mod-info { flex: 1; }
+.mod-info h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-bottom: 2px;
+}
+.mod-info p { font-size: 12px; color: #8fa8c8; }
+.mod-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.mod-dot.done { background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.3); color: #22c55e; }
+.mod-dot.lock { background: rgba(74,96,128,0.12); border: 1px solid rgba(74,96,128,0.25); color: #4a6080; }
+.modules-cta { text-align: center; }
+
+/* =============================================
+   BENEFICIOS
+   ============================================= */
+.sec-benefits { background: #061224; padding: 96px 0; }
+.benefits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.ben-card {
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 14px;
+  padding: 28px;
+  transition: all 0.22s ease;
+}
+.ben-card:hover {
+  border-color: rgba(201,162,39,0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.4);
+}
+.ben-icon {
+  width: 46px; height: 46px;
+  background: rgba(201,162,39,0.08);
+  border: 1px solid rgba(201,162,39,0.25);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 16px;
+}
+.ben-card h4 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #ffffff;
+  margin-bottom: 8px;
+}
+.ben-card p { font-size: 13px; color: #8fa8c8; line-height: 1.6; }
+
+/* =============================================
+   TESTIMONIOS
+   ============================================= */
+.sec-test { background: #081830; padding: 96px 0; }
+.test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.test-card {
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 14px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: all 0.22s;
+}
+.test-card.feat {
+  border-color: rgba(201,162,39,0.5);
+  background: linear-gradient(140deg, #0d2444, rgba(201,162,39,0.05));
+  box-shadow: 0 0 28px rgba(201,162,39,0.08);
+}
+.test-stars { font-size: 15px; color: #c9a227; letter-spacing: 2px; }
+.test-txt { font-size: 13px; color: #8fa8c8; line-height: 1.7; font-style: italic; flex: 1; }
+.test-auth { display: flex; align-items: center; gap: 12px; }
+.test-av {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  background: rgba(201,162,39,0.1);
+  border: 1px solid rgba(201,162,39,0.3);
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  color: #c9a227;
+  flex-shrink: 0;
+}
+.test-auth strong { display: block; font-size: 14px; color: #fff; }
+.test-auth span { display: block; font-size: 11px; color: #4a6080; margin-top: 2px; }
+
+/* =============================================
+   PRECIOS
+   ============================================= */
+.sec-precios { background: #061224; padding: 96px 0; }
+.precios-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: start; }
+.prec-card {
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 20px;
+  padding: 30px 26px;
+  position: relative;
+  transition: all 0.22s;
+}
+.prec-card:hover { border-color: #1a3a60; transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.prec-card.feat {
+  border-color: #c9a227;
+  background: linear-gradient(160deg, #0d2444, rgba(201,162,39,0.06));
+  box-shadow: 0 0 40px rgba(201,162,39,0.1), 0 8px 32px rgba(0,0,0,0.4);
+  transform: scale(1.02);
+}
+.prec-card.feat:hover { transform: scale(1.02) translateY(-4px); }
+.prec-badge {
+  position: absolute; top: -13px; left: 50%; transform: translateX(-50%);
+  background: #c9a227; color: #000;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 800;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  padding: 4px 16px; border-radius: 20px;
+  white-space: nowrap;
+}
+.prec-head { text-align: center; margin-bottom: 22px; }
+.prec-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.1em;
+  color: #8fa8c8; margin-bottom: 10px;
+}
+.prec-price {
+  display: flex; align-items: flex-start; justify-content: center; gap: 4px;
+}
+.prec-cur { font-size: 13px; font-weight: 600; color: #8fa8c8; margin-top: 8px; }
+.prec-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 40px; font-weight: 800; color: #fff; line-height: 1;
+}
+.prec-period { font-size: 11px; color: #4a6080; margin-top: 6px; }
+.prec-feats { list-style: none; display: flex; flex-direction: column; gap: 11px; margin-bottom: 24px; }
+.prec-feats li { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #e8edf5; }
+.prec-feats li.off { color: #4a6080; }
+.prec-btn { width: 100%; justify-content: center; }
+
+/* =============================================
+   FAQ
+   ============================================= */
+.sec-faq { background: #081830; padding: 96px 0; }
+.faq-list { max-width: 740px; margin: 0 auto; display: flex; flex-direction: column; gap: 8px; }
+.faq-item {
+  background: #0a1e38;
+  border: 1px solid #0f2540;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.faq-item.open { border-color: #1a3a60; }
+.faq-btn {
+  width: 100%;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px;
+  background: none; border: none;
+  color: #e8edf5;
+  font-family: 'Barlow', sans-serif;
+  font-size: 14px; font-weight: 500;
+  text-align: left;
+  padding: 20px 22px;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.faq-btn:hover { color: #fff; }
+.faq-item.open .faq-btn { color: #c9a227; }
+.faq-arr { flex-shrink: 0; color: #4a6080; transition: transform 0.3s, color 0.2s; }
+.faq-item.open .faq-arr { transform: rotate(180deg); color: #c9a227; }
+.faq-ans {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.38s ease, padding 0.25s;
+}
+.faq-item.open .faq-ans { max-height: 160px; padding: 0 22px 20px; }
+.faq-ans p { font-size: 13px; color: #8fa8c8; line-height: 1.7; }
+
+/* =============================================
+   CTA FINAL
+   ============================================= */
+.sec-cta-final {
+  padding: 80px 0;
+  background: #061224;
+  border-top: 1px solid #0f2540;
+}
+.cta-box {
+  background: linear-gradient(140deg, #0a1e38, rgba(201,162,39,0.05));
+  border: 1px solid rgba(201,162,39,0.4);
+  border-radius: 24px;
+  padding: 60px 48px;
+  text-align: center;
+  box-shadow: 0 0 48px rgba(201,162,39,0.07);
+}
+.cta-ico {
+  width: 72px; height: 72px;
+  background: rgba(201,162,39,0.1);
+  border: 1px solid rgba(201,162,39,0.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 24px;
+}
+.cta-box h2 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(22px, 3vw, 36px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: #fff;
+  line-height: 1.15;
+  margin-bottom: 12px;
+}
+.cta-box p { font-size: 14px; color: #8fa8c8; margin-bottom: 32px; }
+.cta-acts { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+/* =============================================
+   FOOTER
+   ============================================= */
+.footer {
+  background: #030b17;
+  border-top: 1px solid #0f2540;
+  padding: 64px 0 32px;
+}
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.4fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+.footer-brand {}
+.footer-desc { font-size: 13px; color: #8fa8c8; line-height: 1.65; margin: 16px 0 8px; max-width: 260px; }
+.footer-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 10px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #a0811e;
+}
+.footer-col h5 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700;
+  letter-spacing: 0.14em; text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 16px;
+}
+.footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.footer-col ul li { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #8fa8c8; }
+.footer-col a { color: #8fa8c8; transition: color 0.2s; }
+.footer-col a:hover { color: #c9a227; }
+.footer-bot {
+  border-top: 1px solid #0f2540;
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.footer-bot p { font-size: 11px; color: #4a6080; }
+
+/* =============================================
+   RESPONSIVE
+   ============================================= */
+@media (max-width: 1100px) {
+  .includes-grid { grid-template-columns: repeat(3, 1fr); }
+  .benefits-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+  .hero-title { font-size: clamp(30px, 3.5vw, 48px); }
+  .hero-card { width: 200px; }
+}
+@media (max-width: 860px) {
+  .container { padding: 0 24px; }
+  .hero-content { flex-direction: column; }
+  .hero-left { max-width: 100%; }
+  .hero-right { display: none; }
+  .hero-title { font-size: 40px; }
+  .hero-desc, .hero-actions, .hero-trust { max-width: 100%; }
+  .stats-grid { justify-content: center; }
+  .stat-div { display: none; }
+  .precios-grid { grid-template-columns: 1fr; max-width: 380px; margin: 0 auto; }
+  .prec-card.feat { transform: none; }
+  .test-grid { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .footer-brand { grid-column: span 2; }
+}
+@media (max-width: 680px) {
+  .includes-grid { grid-template-columns: 1fr 1fr; }
+  .benefits-grid { grid-template-columns: 1fr; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-brand { grid-column: span 1; }
+  .footer-bot { flex-direction: column; text-align: center; }
+  .cta-box { padding: 40px 22px; }
+  #nav-menu {
+    position: fixed;
+    top: 70px; left: 0; right: 0;
+    background: rgba(3,11,23,0.98);
+    backdrop-filter: blur(12px);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transform: translateY(-110%);
+    opacity: 0;
+    transition: all 0.3s ease;
+    border-bottom: 1px solid #0f2540;
+  }
+  #nav-menu.open { transform: translateY(0); opacity: 1; }
+  #nav-menu a { padding: 12px 14px; font-size: 15px; }
+}
+@media (max-width: 480px) {
+  .includes-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 34px; }
+  .hero-features { grid-template-columns: 1fr; }
+}
+  
+/* ---- Fondo global visible a través de secciones ---- */
+.stats-bar {
+  background: rgba(8,24,48,0.75) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+.sec-includes,
+.sec-benefits,
+.sec-precios,
+.sec-faq,
+.sec-cta-final {
+  background: rgba(4,9,26,0.72) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.sec-modules,
+.sec-test {
+  background: rgba(6,14,32,0.78) !important;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.inc-card,
+.ben-card,
+.test-card,
+.prec-card,
+.mod-row,
+.faq-item {
+  background: rgba(10,30,56,0.82) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+.test-card.feat,
+.prec-card.feat {
+  background: linear-gradient(140deg, rgba(13,36,68,0.9), rgba(201,162,39,0.08)) !important;
+}
+.cta-box {
+  background: linear-gradient(140deg, rgba(10,30,56,0.88), rgba(201,162,39,0.06)) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+#navbar {
+  background: rgba(4,9,26,0.9) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+}
+.footer {
+  background: rgba(3,8,18,0.94) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="container nav-inner">
+    <a href="index.html" class="nav-logo"><img src="assets/logos/logo.png" alt="Academia INPEC" style="height:54px;width:auto;display:block;object-fit:contain;"></a>
+
+    <ul class="nav-links" id="nav-menu">
+      <li><a href="#inicio">Inicio</a></li>
+      <li><a href="#sobre">Sobre el curso</a></li>
+      <li><a href="#modulos">Módulos</a></li>
+      <li><a href="#beneficios">Beneficios</a></li>
+      <li><a href="#testimonios">Testimonios</a></li>
+      <li><a href="#preguntas">Preguntas</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+
+    <div class="nav-cta">
+      <a href="dashboard/index.html" class="btn btn-outline">Ingresar</a>
+      <a href="#precios" class="btn btn-gold">Comprar acceso</a>
+    </div>
+
+    <button class="hamburger" id="menu-toggle" aria-label="Menú">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="container hero-content">
+    <div class="hero-left">
+      <div class="badge-gold hero-badge">
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none"><circle cx="6" cy="6" r="5" stroke="currentColor" stroke-width="1.3"/><polyline points="4,6 5.5,7.5 8,4.5" stroke="currentColor" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
+        Curso Online
+      </div>
+
+      <h1 class="hero-title">
+        Prepárate para servir,<br>
+        <span class="gold">Prepárate para triunfar.</span>
+      </h1>
+
+      <p class="hero-desc">
+        El curso más completo y actualizado para aprobar las pruebas escritas del INPEC y alcanzar tu sueño de ser parte del Cuerpo de Custodia y Vigilancia.
+      </p>
+
+      <div class="hero-features">
+        <div class="hero-feat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+          Contenido 100% enfocado en el INPEC
+        </div>
+        <div class="hero-feat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Simulacros con preguntas de alto nivel
+        </div>
+        <div class="hero-feat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg>
+          Seguimiento de tu progreso
+        </div>
+        <div class="hero-feat">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg>
+          Mejora tus habilidades y competencias
+        </div>
+      </div>
+
+      <div class="hero-actions">
+        <a href="#precios" class="btn btn-gold btn-hero">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+          Comprar acceso ahora
+        </a>
+        <a href="#sobre" class="btn btn-outline">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5,3 19,12 5,21"/></svg>
+          Ver presentación
+        </a>
+      </div>
+
+      <p class="hero-trust">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        Pago 100% seguro &nbsp;|&nbsp; Acceso inmediato &nbsp;|&nbsp; Estudia a tu ritmo
+      </p>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <div class="hcard-icon">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.4"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <p class="hcard-label">Más que un curso,</p>
+        <p class="hcard-title">es tu futuro.</p>
+        <div class="hcard-sep"></div>
+        <p class="hcard-sub">Miles de aspirantes ya están transformando su futuro.</p>
+        <a href="#precios" class="btn btn-gold" style="width:100%;justify-content:center;font-size:12px;padding:11px 20px">Empezar ahora</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats-bar">
+  <div class="container stats-grid">
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.4"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <span class="stat-num" data-counter data-target="8000" data-prefix="+">+0</span>
+        <span class="stat-label">Estudiantes preparados</span>
+      </div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.4"><polyline points="20,6 9,17 4,12"/></svg>
+      </div>
+      <div>
+        <span class="stat-num" data-counter data-target="85" data-suffix="%">0%</span>
+        <span class="stat-label">Tasa de aprobación de nuestros estudiantes</span>
+      </div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.4"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg>
+      </div>
+      <div>
+        <span class="stat-num" data-counter data-target="120" data-prefix="+">+0</span>
+        <span class="stat-label">Horas de contenido especializado</span>
+      </div>
+    </div>
+    <div class="stat-div"></div>
+    <div class="stat-item">
+      <div class="stat-icon">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.4"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <div>
+        <span class="stat-num" data-counter data-target="100" data-suffix="%">0%</span>
+        <span class="stat-label">Enfocado en el INPEC</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUÉ INCLUYE -->
+<section class="sec-includes" id="sobre">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">¿Qué incluye el curso?</span>
+      <h2 class="section-title">Contenido completo para tu preparación</h2>
+    </div>
+    <div class="includes-grid">
+      <div class="inc-card" data-animate data-delay="0">
+        <div class="inc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div>
+        <div class="inc-title">10 Módulos<br>de Estudio</div>
+        <p class="inc-desc">Temas esenciales explicados de forma clara y completa.</p>
+      </div>
+      <div class="inc-card" data-animate data-delay="70">
+        <div class="inc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><polyline points="9,11 12,14 22,4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+        <div class="inc-title">Simulacros<br>por Módulo</div>
+        <p class="inc-desc">10 preguntas por módulo para evaluar y reforzar conocimientos.</p>
+      </div>
+      <div class="inc-card" data-animate data-delay="140">
+        <div class="inc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+        <div class="inc-title">Simulacro<br>Final</div>
+        <p class="inc-desc">Examen con 100 preguntas de alto nivel y tiempo real.</p>
+      </div>
+      <div class="inc-card" data-animate data-delay="210">
+        <div class="inc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+        <div class="inc-title">Seguimiento<br>de Progreso</div>
+        <p class="inc-desc">Monitorea tu avance, puntajes y mejora día a día.</p>
+      </div>
+      <div class="inc-card" data-animate data-delay="280">
+        <div class="inc-icon"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg></div>
+        <div class="inc-title">Consejos y<br>Estrategias</div>
+        <p class="inc-desc">Técnicas para responder mejor y ahorrar tiempo en el examen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÓDULOS -->
+<section class="sec-modules" id="modulos">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">Contenido del curso</span>
+      <h2 class="section-title">10 Módulos de preparación completa</h2>
+      <p class="section-sub">Cada módulo incluye contenido teórico, ejemplos prácticos y simulacro de evaluación.</p>
+    </div>
+    <div class="modules-list">
+      <div class="mod-row" data-animate data-delay="0">
+        <span class="mod-n">01</span>
+        <div class="mod-info"><h4>Constitución Política</h4><p>Principios fundamentales y estructura del Estado colombiano.</p></div>
+        <div class="mod-dot done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="50">
+        <span class="mod-n">02</span>
+        <div class="mod-info"><h4>Derechos Humanos</h4><p>Fundamentos, historia y aplicación en el sistema penitenciario.</p></div>
+        <div class="mod-dot done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="100">
+        <span class="mod-n">03</span>
+        <div class="mod-info"><h4>Normatividad Penitenciaria</h4><p>Leyes y decretos del sistema penitenciario y carcelario.</p></div>
+        <div class="mod-dot done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="150">
+        <span class="mod-n">04</span>
+        <div class="mod-info"><h4>Función Pública</h4><p>Empleo público y carrera administrativa en Colombia.</p></div>
+        <div class="mod-dot done"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="200">
+        <span class="mod-n">05</span>
+        <div class="mod-info"><h4>Ética Pública</h4><p>Principios y valores del servidor público del Estado.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="250">
+        <span class="mod-n">06</span>
+        <div class="mod-info"><h4>Atención al Ciudadano</h4><p>Normas, protocolos y estándares de atención al público.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="300">
+        <span class="mod-n">07</span>
+        <div class="mod-info"><h4>Régimen Penitenciario</h4><p>Estructura, funcionamiento y normativa del INPEC.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="350">
+        <span class="mod-n">08</span>
+        <div class="mod-info"><h4>Competencias Comportamentales</h4><p>Habilidades evaluadas en las pruebas psicotécnicas.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="400">
+        <span class="mod-n">09</span>
+        <div class="mod-info"><h4>Prueba de Afrontamiento</h4><p>Técnicas para manejar el estrés y rendir al máximo.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+      <div class="mod-row" data-animate data-delay="450">
+        <span class="mod-n">10</span>
+        <div class="mod-info"><h4>Casos Situacionales</h4><p>Resolución de escenarios reales del entorno penitenciario.</p></div>
+        <div class="mod-dot lock"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+      </div>
+    </div>
+    <div class="modules-cta" data-animate>
+      <a href="#precios" class="btn btn-gold">Desbloquear todos los módulos</a>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFICIOS -->
+<section class="sec-benefits" id="beneficios">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">¿Por qué elegirnos?</span>
+      <h2 class="section-title">La ventaja de prepararse con nosotros</h2>
+    </div>
+    <div class="benefits-grid">
+      <div class="ben-card" data-animate data-delay="0">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <h4>Contenido oficial actualizado</h4>
+        <p>Material alineado con las últimas convocatorias y resoluciones del INPEC.</p>
+      </div>
+      <div class="ben-card" data-animate data-delay="90">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><polyline points="22,12 18,12 15,21 9,3 6,12 2,12"/></svg></div>
+        <h4>Seguimiento en tiempo real</h4>
+        <p>Visualiza tu progreso, puntajes y áreas de mejora en cada sesión.</p>
+      </div>
+      <div class="ben-card" data-animate data-delay="180">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polyline points="12,6 12,12 16,14"/></svg></div>
+        <h4>Estudia a tu propio ritmo</h4>
+        <p>Acceso ilimitado 24/7. Aprende cuando y donde quieras, sin presión.</p>
+      </div>
+      <div class="ben-card" data-animate data-delay="270">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><polyline points="8,21 12,17 16,21"/></svg></div>
+        <h4>Plataforma optimizada</h4>
+        <p>Funciona perfectamente en móvil, tablet y computador sin instalaciones.</p>
+      </div>
+      <div class="ben-card" data-animate data-delay="360">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26 12,2"/></svg></div>
+        <h4>Simulacros de alta fidelidad</h4>
+        <p>Preguntas elaboradas con el mismo nivel de la prueba real del INPEC.</p>
+      </div>
+      <div class="ben-card" data-animate data-delay="450">
+        <div class="ben-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
+        <h4>Comunidad activa</h4>
+        <p>Conéctate con miles de aspirantes que comparten el mismo sueño.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="sec-test" id="testimonios">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">Lo que dicen nuestros estudiantes</span>
+      <h2 class="section-title">Historias de éxito reales</h2>
+    </div>
+    <div class="test-grid">
+      <div class="test-card" data-animate data-delay="0">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-txt">"Gracias a Academia INPEC aprobé la prueba escrita con 9.2/10. El material es exactamente lo que necesitas. Los simulacros me prepararon para cualquier pregunta."</p>
+        <div class="test-auth"><div class="test-av">CM</div><div><strong>Carlos M.</strong><span>Guardia INPEC — Bogotá</span></div></div>
+      </div>
+      <div class="test-card feat" data-animate data-delay="100">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-txt">"Llevaba 2 años intentando pasar y no lo lograba. Con esta plataforma me preparé en 3 meses y obtuve el puesto. La metodología es increíble, muy recomendada."</p>
+        <div class="test-auth"><div class="test-av">LR</div><div><strong>Laura R.</strong><span>Cuerpo de Custodia — Medellín</span></div></div>
+      </div>
+      <div class="test-card" data-animate data-delay="200">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-txt">"El seguimiento de progreso me ayudó a identificar mis debilidades. Los módulos están muy bien organizados y el simulacro final es casi idéntico a la prueba real."</p>
+        <div class="test-auth"><div class="test-av">JP</div><div><strong>Jhon P.</strong><span>Aspirante — Cali</span></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRECIOS -->
+<section class="sec-precios" id="precios">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">Planes de acceso</span>
+      <h2 class="section-title">Invierte en tu futuro hoy</h2>
+      <p class="section-sub">Sin pagos adicionales. Todo incluido desde el primer día.</p>
+    </div>
+    <div class="precios-grid">
+      <div class="prec-card" data-animate data-delay="0">
+        <div class="prec-head">
+          <p class="prec-name">Plan Básico</p>
+          <div class="prec-price"><span class="prec-cur">COP</span><span class="prec-num">89.000</span></div>
+          <p class="prec-period">Acceso por 1 mes</p>
+        </div>
+        <ul class="prec-feats">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> 10 módulos completos</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Simulacros por módulo</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Seguimiento de progreso</li>
+          <li class="off"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a6080" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Simulacro final</li>
+          <li class="off"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#4a6080" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> Material PDF de apoyo</li>
+        </ul>
+        <a href="#contacto" class="btn btn-outline prec-btn">Elegir plan</a>
+      </div>
+      <div class="prec-card feat" data-animate data-delay="100">
+        <div class="prec-badge">Más popular</div>
+        <div class="prec-head">
+          <p class="prec-name">Plan Pro</p>
+          <div class="prec-price"><span class="prec-cur">COP</span><span class="prec-num">149.000</span></div>
+          <p class="prec-period">Acceso por 3 meses</p>
+        </div>
+        <ul class="prec-feats">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> 10 módulos completos</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Simulacros por módulo</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Seguimiento de progreso</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Simulacro final completo</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Material PDF de apoyo</li>
+        </ul>
+        <a href="#contacto" class="btn btn-gold prec-btn">Comenzar ahora</a>
+      </div>
+      <div class="prec-card" data-animate data-delay="200">
+        <div class="prec-head">
+          <p class="prec-name">Plan Elite</p>
+          <div class="prec-price"><span class="prec-cur">COP</span><span class="prec-num">249.000</span></div>
+          <p class="prec-period">Acceso por 6 meses</p>
+        </div>
+        <ul class="prec-feats">
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Todo lo del Plan Pro</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Acceso multi-fuerza</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Asesoría personalizada</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Preparación física guiada</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="2.5"><polyline points="20,6 9,17 4,12"/></svg> Certificado de preparación</li>
+        </ul>
+        <a href="#contacto" class="btn btn-outline prec-btn">Elegir plan</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="sec-faq" id="preguntas">
+  <div class="container">
+    <div class="section-header" data-animate>
+      <span class="section-label">Preguntas frecuentes</span>
+      <h2 class="section-title">Resolvemos tus dudas</h2>
+    </div>
+    <div class="faq-list">
+      <div class="faq-item" data-animate data-delay="0">
+        <button class="faq-btn">¿Cuánto tiempo tengo acceso al curso? <svg class="faq-arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg></button>
+        <div class="faq-ans"><p>Depende del plan que elijas: 1 mes (Básico), 3 meses (Pro) o 6 meses (Elite). El acceso comienza desde el momento en que realizas el pago.</p></div>
+      </div>
+      <div class="faq-item" data-animate data-delay="80">
+        <button class="faq-btn">¿Puedo estudiar desde el celular? <svg class="faq-arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg></button>
+        <div class="faq-ans"><p>Sí, la plataforma está optimizada para todos los dispositivos: celular, tablet y computador. Solo necesitas un navegador actualizado.</p></div>
+      </div>
+      <div class="faq-item" data-animate data-delay="160">
+        <button class="faq-btn">¿El contenido está actualizado con la última convocatoria? <svg class="faq-arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg></button>
+        <div class="faq-ans"><p>Sí. Actualizamos el contenido con cada nueva convocatoria del INPEC para garantizar que estés preparado con la información más reciente.</p></div>
+      </div>
+      <div class="faq-item" data-animate data-delay="240">
+        <button class="faq-btn">¿Cómo se realiza el pago? <svg class="faq-arr" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg></button>
+        <div class="faq-ans"><p>Aceptamos pagos por PSE, tarjetas de crédito/débito, Nequi y Daviplata. El proceso es 100% seguro y el acceso es inmediato.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="sec-cta-final">
+  <div class="container">
+    <div class="cta-box" data-animate>
+      <div class="cta-ico">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#c9a227" stroke-width="1.3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      </div>
+      <h2>No se trata de tener tiempo,<br>se trata de hacerlo valer.</h2>
+      <p>La preparación de hoy es tu tranquilidad de mañana.</p>
+      <div class="cta-acts">
+        <a href="#precios" class="btn btn-gold">Comenzar mi preparación</a>
+        <a href="#contacto" class="btn btn-outline">¿Necesitas ayuda?</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer" id="contacto">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="index.html" class="nav-logo"><img src="assets/logos/logo.png" alt="Academia INPEC" style="height:44px;width:auto;display:block;object-fit:contain;"></a>
+        <p class="footer-desc">La plataforma más completa para la preparación de las pruebas del INPEC en Colombia.</p>
+        <p class="footer-tag">Prepárate · Supera · Transforma tu Futuro</p>
+      </div>
+      <div class="footer-col">
+        <h5>Plataforma</h5>
+        <ul>
+          <li><a href="#inicio">Inicio</a></li>
+          <li><a href="#modulos">Módulos</a></li>
+          <li><a href="#precios">Planes</a></li>
+          <li><a href="dashboard/index.html">Dashboard</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Información</h5>
+        <ul>
+          <li><a href="#sobre">Sobre el curso</a></li>
+          <li><a href="#beneficios">Beneficios</a></li>
+          <li><a href="#testimonios">Testimonios</a></li>
+          <li><a href="#preguntas">Preguntas</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h5>Contacto</h5>
+        <ul>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> academiaINPEC@gmail.com</li>
+          <li><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg> WhatsApp disponible</li>
+          <li>Colombia — Atención 24/7</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <p>© 2025 Academia INPEC. Todos los derechos reservados.</p>
+      <p>Plataforma educativa independiente · No afiliada al INPEC institucional</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Navbar scroll
+const nav = document.getElementById('navbar');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', scrollY > 60));
+
+// Hamburger
+const tog = document.getElementById('menu-toggle');
+const men = document.getElementById('nav-menu');
+if(tog) tog.addEventListener('click', () => { men.classList.toggle('open'); });
+
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), +(e.target.dataset.delay||0));
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('[data-animate]').forEach(el => obs.observe(el));
+
+// Counters
+function runCounter(el) {
+  const target = +el.dataset.target;
+  const pre = el.dataset.prefix || '';
+  const suf = el.dataset.suffix || '';
+  const dur = 1600, step = 14;
+  const inc = target / (dur / step);
+  let cur = 0;
+  const t = setInterval(() => {
+    cur += inc;
+    if(cur >= target) { cur = target; clearInterval(t); }
+    el.textContent = pre + Math.floor(cur).toLocaleString('es-CO') + suf;
+  }, step);
+}
+const cobs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { runCounter(e.target); cobs.unobserve(e.target); } });
+}, { threshold: 0.5 });
+document.querySelectorAll('[data-counter]').forEach(el => cobs.observe(el));
+
+// FAQ
+document.querySelectorAll('.faq-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if(t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+</script>
+</body>
+</html>
